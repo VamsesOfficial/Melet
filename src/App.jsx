@@ -322,42 +322,42 @@ function Header({ dark, setDark }) {
       </div>
 
       {/* Mobile menu */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className={`lg:hidden border-t shadow-xl ${
-              dark ? "bg-[#0d1f33] border-white/10" : "bg-white border-slate-100"
-            }`}
+      <div
+        className={`lg:hidden border-t shadow-xl overflow-hidden transition-all duration-300 ease-in-out ${
+          open ? "max-h-96 opacity-100" : "max-h-0 opacity-0 pointer-events-none"
+        } ${dark ? "bg-[#0d1f33] border-white/10" : "bg-white border-slate-100"}`}
+      >
+        <div className="px-4 py-5 flex flex-col gap-1">
+          {NAV_LINKS.map((l) => (
+            <button
+              key={l.href}
+              onClick={() => {
+                setOpen(false);
+                setActive(l.href);
+                const id = l.href.replace("#", "");
+                setTimeout(() => {
+                  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+                }, 300);
+              }}
+              className={`text-left px-4 py-3 rounded-xl font-medium transition-colors text-sm ${
+                dark
+                  ? "text-white hover:bg-white/10"
+                  : "text-[#1a3a5c] hover:bg-slate-50"
+              }`}
+            >
+              {l.label}
+            </button>
+          ))}
+          <a
+            href="https://wa.me/62881037366555"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 text-center px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold text-sm"
           >
-            <div className="px-4 py-5 flex flex-col gap-1">
-              {NAV_LINKS.map((l) => (
-                <button
-                  key={l.href}
-                  onClick={() => handleNav(l.href)}
-                  className={`text-left px-4 py-3 rounded-xl font-medium transition-colors text-sm ${
-                    dark
-                      ? "text-white hover:bg-white/10"
-                      : "text-[#1a3a5c] hover:bg-slate-50"
-                  }`}
-                >
-                  {l.label}
-                </button>
-              ))}
-              <a
-                href="https://wa.me/62881037366555"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-3 text-center px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold text-sm"
-              >
-                Request Quote
-              </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            Request Quote
+          </a>
+        </div>
+      </div>
     </header>
   );
 }
