@@ -700,9 +700,312 @@ function ProductCategories({ dark }) {
   );
 }
 
+// ─── PRODUCT MODAL — iOS Glassmorphism Premium ───────────────────────────────
+
+function ProductModal({ product, dark, onClose }) {
+  useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", handler);
+      document.body.style.overflow = prev;
+    };
+  }, [onClose]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.22, ease: "easeOut" }}
+      onClick={onClose}
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 999,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "12px",
+        // Glassmorphism backdrop
+        background: "rgba(4, 12, 24, 0.65)",
+        backdropFilter: "blur(16px) saturate(1.4)",
+        WebkitBackdropFilter: "blur(16px) saturate(1.4)",
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.92, y: 18 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.92, y: 18 }}
+        transition={{ duration: 0.30, ease: [0.22, 1, 0.36, 1] }}
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          position: "relative",
+          width: "100%",
+          maxWidth: "680px",
+          maxHeight: "92dvh",
+          overflowY: "auto",
+          overflowX: "hidden",
+          borderRadius: "28px",
+          // Dark navy glass panel
+          background: dark
+            ? "linear-gradient(160deg, rgba(13,27,52,0.97) 0%, rgba(7,18,38,0.99) 100%)"
+            : "linear-gradient(160deg, rgba(248,250,255,0.97) 0%, rgba(235,242,255,0.99) 100%)",
+          border: dark
+            ? "1px solid rgba(201,168,76,0.18)"
+            : "1px solid rgba(201,168,76,0.25)",
+          boxShadow: dark
+            ? "0 32px 80px rgba(0,0,0,0.65), 0 0 0 0.5px rgba(201,168,76,0.10) inset, 0 1px 0 rgba(255,255,255,0.06) inset"
+            : "0 32px 80px rgba(10,30,60,0.22), 0 0 0 0.5px rgba(201,168,76,0.15) inset",
+          // Smooth scroll on iOS
+          WebkitOverflowScrolling: "touch",
+          scrollbarWidth: "none",
+        }}
+      >
+        {/* ── Floating Close Button ── */}
+        <motion.button
+          onClick={onClose}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.93 }}
+          aria-label="Close"
+          style={{
+            position: "absolute",
+            top: "14px",
+            right: "14px",
+            zIndex: 30,
+            width: "34px",
+            height: "34px",
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "rgba(0,0,0,0.45)",
+            border: "1px solid rgba(255,255,255,0.18)",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
+            cursor: "pointer",
+            transition: "background 0.18s",
+          }}
+        >
+          <X size={15} color="#fff" />
+        </motion.button>
+
+        {/* ── Hero Image ── */}
+        <div style={{ position: "relative", height: "clamp(220px, 40vw, 400px)", overflow: "hidden", borderRadius: "28px 28px 0 0" }}>
+          <ProductImage
+            src={product.image}
+            alt={product.name}
+            dark={dark}
+            className="w-full h-full"
+            style={{ objectFit: "cover", width: "100%", height: "100%", display: "block" }}
+          />
+          {/* Gradient overlay — stronger at bottom */}
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(to top, rgba(7,18,38,0.88) 0%, rgba(7,18,38,0.25) 55%, transparent 100%)",
+            pointerEvents: "none",
+          }} />
+          {/* Subtle shimmer line at top */}
+          <div style={{
+            position: "absolute",
+            top: 0, left: 0, right: 0,
+            height: "1px",
+            background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent)",
+          }} />
+
+          {/* Category pill — bottom left of image */}
+          <div style={{ position: "absolute", bottom: "16px", left: "18px" }}>
+            <motion.span
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.18, duration: 0.28 }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "5px",
+                background: "rgba(201,168,76,0.22)",
+                border: "1px solid rgba(201,168,76,0.50)",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
+                color: "#e8c96a",
+                fontSize: "10px",
+                fontWeight: 700,
+                letterSpacing: "0.20em",
+                textTransform: "uppercase",
+                padding: "5px 12px",
+                borderRadius: "100px",
+              }}
+            >
+              {product.category}
+            </motion.span>
+          </div>
+        </div>
+
+        {/* ── Content Body ── */}
+        <div style={{ padding: "clamp(20px, 4vw, 32px)", display: "flex", flexDirection: "column", gap: "18px" }}>
+
+          {/* Header row */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.10, duration: 0.28 }}
+          >
+            {/* Category label */}
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+              <div style={{ width: "20px", height: "1.5px", background: "linear-gradient(90deg, #c9a84c, #e0b84e)" }} />
+              <span style={{ fontSize: "10px", fontWeight: 800, letterSpacing: "0.22em", textTransform: "uppercase", color: "#c9a84c" }}>
+                {product.category}
+              </span>
+            </div>
+            {/* Product name */}
+            <h2 style={{
+              margin: 0,
+              fontSize: "clamp(20px, 4vw, 26px)",
+              fontWeight: 900,
+              lineHeight: 1.18,
+              color: dark ? "#fff" : "#0d1f33",
+              letterSpacing: "-0.01em",
+            }}>
+              {product.name}
+            </h2>
+          </motion.div>
+
+          {/* Divider */}
+          <div style={{
+            height: "1px",
+            background: dark
+              ? "linear-gradient(90deg, rgba(201,168,76,0.2), rgba(255,255,255,0.04), rgba(201,168,76,0.12))"
+              : "linear-gradient(90deg, rgba(201,168,76,0.3), rgba(26,58,92,0.06), rgba(201,168,76,0.2))",
+          }} />
+
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.16, duration: 0.28 }}
+            style={{
+              margin: 0,
+              fontSize: "clamp(13px, 2vw, 15px)",
+              lineHeight: 1.70,
+              color: dark ? "rgba(255,255,255,0.62)" : "rgba(13,31,51,0.68)",
+            }}
+          >
+            {product.description}
+          </motion.p>
+
+          {/* Badges row */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.22, duration: 0.28 }}
+            style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}
+          >
+            {["Hotel Grade", "Indonesia Made", "In Stock"].map((tag) => (
+              <span key={tag} style={{
+                fontSize: "10px",
+                fontWeight: 700,
+                color: dark ? "rgba(255,255,255,0.45)" : "rgba(13,31,51,0.45)",
+                background: dark ? "rgba(255,255,255,0.06)" : "rgba(13,31,51,0.05)",
+                border: dark ? "1px solid rgba(255,255,255,0.10)" : "1px solid rgba(13,31,51,0.09)",
+                padding: "4px 10px",
+                borderRadius: "100px",
+                letterSpacing: "0.06em",
+              }}>
+                {tag}
+              </span>
+            ))}
+          </motion.div>
+
+          {/* Divider */}
+          <div style={{
+            height: "1px",
+            background: dark ? "rgba(255,255,255,0.06)" : "rgba(13,31,51,0.07)",
+          }} />
+
+          {/* Action buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.26, duration: 0.28 }}
+            style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}
+          >
+            {/* Primary — Enquire Now */}
+            <a
+              href={`https://wa.me/62881037366555?text=Hi,%20I%20am%20interested%20in%20${encodeURIComponent(product.name)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                flex: 1,
+                minWidth: "140px",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+                padding: "13px 20px",
+                borderRadius: "16px",
+                fontWeight: 800,
+                fontSize: "13px",
+                color: "#fff",
+                background: "linear-gradient(135deg, #c9a84c 0%, #e8c76a 50%, #c9a84c 100%)",
+                backgroundSize: "200% auto",
+                border: "none",
+                cursor: "pointer",
+                textDecoration: "none",
+                boxShadow: "0 6px 24px rgba(201,168,76,0.35)",
+                transition: "box-shadow 0.2s, transform 0.15s",
+                letterSpacing: "0.01em",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.boxShadow = "0 8px 30px rgba(201,168,76,0.50)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.boxShadow = "0 6px 24px rgba(201,168,76,0.35)"; e.currentTarget.style.transform = "translateY(0)"; }}
+            >
+              <MessageCircle size={15} />
+              Enquire Now
+            </a>
+
+            {/* Secondary — Close */}
+            <button
+              onClick={onClose}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "7px",
+                padding: "13px 20px",
+                borderRadius: "16px",
+                fontWeight: 700,
+                fontSize: "13px",
+                cursor: "pointer",
+                background: dark ? "rgba(255,255,255,0.07)" : "rgba(13,31,51,0.06)",
+                border: dark ? "1px solid rgba(255,255,255,0.13)" : "1px solid rgba(13,31,51,0.11)",
+                color: dark ? "rgba(255,255,255,0.65)" : "rgba(13,31,51,0.60)",
+                transition: "background 0.18s, transform 0.15s",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = dark ? "rgba(255,255,255,0.12)" : "rgba(13,31,51,0.10)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = dark ? "rgba(255,255,255,0.07)" : "rgba(13,31,51,0.06)"; e.currentTarget.style.transform = "translateY(0)"; }}
+            >
+              <X size={13} />
+              Close
+            </button>
+          </motion.div>
+        </div>
+
+        {/* Bottom ambient glow bar */}
+        <div style={{
+          height: "3px",
+          background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.45), rgba(201,168,76,0.25), transparent)",
+          borderRadius: "0 0 28px 28px",
+        }} />
+      </motion.div>
+    </motion.div>
+  );
+}
+
 // ─── FEATURED PRODUCTS ────────────────────────────────────────────────────────
 
-function FeaturedProducts({ dark }) {
+function FeaturedProducts({ dark, setSelectedProduct }) {
   const [filter, setFilter] = useState("All");
   const categories = ["All", ...new Set(PRODUCTS.map((p) => p.category))];
   const filtered = filter === "All" ? PRODUCTS : PRODUCTS.filter((p) => p.category === filter);
@@ -747,38 +1050,42 @@ function FeaturedProducts({ dark }) {
           ))}
         </motion.div>
 
-        {/* Product grid — no motion on individual cards = smoother scroll */}
+        {/* Product grid */}
         <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {filtered.map((product) => (
             <div
               key={product.id}
-              className={`group rounded-xl sm:rounded-2xl overflow-hidden ${cardBg} border shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200`}
-              style={{ willChange: "transform" }}
+              className={`group rounded-2xl sm:rounded-3xl overflow-hidden ${cardBg} border shadow-sm hover:shadow-lg hover:-translate-y-1 transition-[transform,box-shadow] duration-200 cursor-pointer`}
+              onClick={() => setSelectedProduct(product)}
             >
-              <div className="relative h-40 sm:h-52 overflow-hidden bg-slate-100">
+              <div className="relative h-40 sm:h-52 overflow-hidden" style={{ background: dark ? "#0a1828" : "#e8eef4" }}>
                 <ProductImage
                   src={product.image}
                   alt={product.name}
                   dark={dark}
-                  className="w-full h-full group-hover:scale-105 transition-transform duration-400"
+                  className="w-full h-full group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3">
-                  <span className={`text-[9px] sm:text-[10px] font-bold ${tagBg} backdrop-blur-sm px-2 py-0.5 sm:py-1 rounded-full shadow`}>
+                  <span className={`text-[9px] sm:text-[10px] font-bold ${tagBg} px-2 py-0.5 sm:py-1 rounded-full shadow`}>
                     {product.category}
+                  </span>
+                </div>
+                {/* Lightweight hover hint — no backdrop-filter */}
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-200 flex items-center justify-center">
+                  <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 text-white text-[10px] sm:text-xs font-bold tracking-wider uppercase px-3 py-1.5 rounded-full bg-black/50 border border-white/20">
+                    View Details
                   </span>
                 </div>
               </div>
               <div className="p-3 sm:p-4">
                 <h3 className={`font-bold ${text} text-xs sm:text-sm mb-1 leading-tight`}>{product.name}</h3>
                 <p className={`${muted} text-[10px] sm:text-xs leading-relaxed mb-2 sm:mb-3`}>{product.description}</p>
-                <a
-                  href={`https://wa.me/62881037366555?text=Hi,%20I%20am%20interested%20in%20${encodeURIComponent(product.name)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={(e) => { e.stopPropagation(); setSelectedProduct(product); }}
                   className="text-[10px] sm:text-xs font-bold text-amber-600 hover:text-amber-500 flex items-center gap-1 group/link"
                 >
                   Enquire Now <ArrowRight size={11} className="transition-transform group-hover/link:translate-x-1" />
-                </a>
+                </button>
               </div>
             </div>
           ))}
@@ -1201,6 +1508,7 @@ function ScrollToTop() {
 
 export default function App() {
   const [dark, setDark] = useDarkMode();
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
     <div
@@ -1230,13 +1538,25 @@ export default function App() {
         <Hero dark={dark} />
         <About dark={dark} />
         <ProductCategories dark={dark} />
-        <FeaturedProducts dark={dark} />
+        <FeaturedProducts dark={dark} setSelectedProduct={setSelectedProduct} />
         <WhyChooseUs dark={dark} />
         <CTA />
         <Contact dark={dark} />
       </main>
       <Footer dark={dark} />
       <ScrollToTop />
+
+      {/* Modal rendered at root level — outside all Section containers
+          to avoid CSS contain:layout breaking position:fixed viewport anchoring */}
+      <AnimatePresence>
+        {selectedProduct && (
+          <ProductModal
+            product={selectedProduct}
+            dark={dark}
+            onClose={() => setSelectedProduct(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
