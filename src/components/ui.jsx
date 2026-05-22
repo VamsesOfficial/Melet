@@ -250,11 +250,14 @@ export function ProductModal({ product, dark, onClose }) {
           <X size={15} color="#fff" />
         </button>
 
-        <div style={{ position: "relative", height: "clamp(220px, 40vw, 400px)", overflow: "hidden", borderRadius: "28px 28px 0 0" }}>
-          <ProductImage src={product.image} alt={product.name} dark={dark} className="w-full h-full"
-            style={{ objectFit: "cover", width: "100%", height: "100%", display: "block" }} />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(7,18,38,0.88) 0%, rgba(7,18,38,0.25) 55%, transparent 100%)", pointerEvents: "none" }} />
-          <div style={{ position: "absolute", bottom: "16px", left: "18px" }}>
+        <div style={{ position: "relative", borderRadius: "28px 28px 0 0", overflow: "hidden", background: dark ? "#0a1828" : "#e8eef4" }}>
+          <img
+            src={product.image}
+            alt={product.name}
+            style={{ display: "block", width: "100%", height: "auto", maxHeight: "70dvh", objectFit: "contain" }}
+            onError={(e) => { e.target.style.display = "none"; }}
+          />
+          <div style={{ position: "absolute", bottom: "12px", left: "14px" }}>
             <span style={{
               display: "inline-flex", alignItems: "center", gap: "5px",
               background: "rgba(201,168,76,0.22)", border: "1px solid rgba(201,168,76,0.50)",

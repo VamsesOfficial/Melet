@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, MessageCircle, ChevronRight, Package, Droplets, Shirt, Leaf } from "lucide-react";
+import { ArrowRight, MessageCircle, ChevronRight, Package, Droplets, Shirt, Leaf, Images } from "lucide-react";
 import { fadeUp, stagger } from "../animations";
 import { Section, SectionLabel, SEOHead, ProductImage, ProductModal } from "../components/ui";
 import { PRODUCTS, PRODUCT_CATEGORIES } from "../data";
@@ -11,6 +11,7 @@ const CAT_ICONS = { "personal-care": <Droplets size={18}/>, "comfort-items": <Sh
 export default function ProductsPage({ dark }) {
   const [filter, setFilter] = useState("All");
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const navigate = useNavigate();
 
   const categories = ["All", ...PRODUCT_CATEGORIES.map(c => c.name)];
   const filtered = filter === "All" ? PRODUCTS : PRODUCTS.filter((p) => p.category === filter);
@@ -124,12 +125,34 @@ export default function ProductsPage({ dark }) {
                 <div className="p-3 sm:p-4">
                   <h2 className={`font-bold ${text} text-sm mb-1 leading-tight`}>{product.name}</h2>
                   <p className={`${muted} text-xs leading-relaxed mb-2 sm:mb-3 line-clamp-2`}>{product.description}</p>
-                  <button
-                    onClick={(e) => { e.stopPropagation(); setSelectedProduct(product); }}
-                    className="text-xs font-bold text-amber-600 hover:text-amber-500 flex items-center gap-1 group/link"
-                  >
-                    Enquire Now <ArrowRight size={11} className="transition-transform group-hover/link:translate-x-1" />
-                  </button>
+
+                  {/* Action buttons row */}
+                  <div className="flex items-center justify-between gap-2">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setSelectedProduct(product); }}
+                      className="text-xs font-bold text-amber-600 hover:text-amber-500 flex items-center gap-1 group/link"
+                    >
+                      Enquire Now <ArrowRight size={11} className="transition-transform group-hover/link:translate-x-1" />
+                    </button>
+
+                    {/* View All Photos button — only shown if product has gallery */}
+                    {product.gallery && product.gallery.length > 0 && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/products/${product.slug}/gallery`);
+                        }}
+                        className={`flex items-center gap-1 text-[10px] sm:text-xs font-semibold px-2 py-1 rounded-lg transition-all duration-150 ${
+                          dark
+                            ? "bg-white/10 text-white/70 hover:bg-amber-500/20 hover:text-amber-300"
+                            : "bg-slate-100 text-slate-500 hover:bg-amber-50 hover:text-amber-600"
+                        }`}
+                      >
+                        <Images size={11} />
+                        View All
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}

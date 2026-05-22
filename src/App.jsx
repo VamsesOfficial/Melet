@@ -11,6 +11,7 @@ import CategoryPage from "./pages/CategoryPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import ProductGalleryPage from "./pages/ProductGalleryPage";
 
 function useDarkMode() {
   const [dark, setDark] = useState(() => {
@@ -46,15 +47,13 @@ function AppLayout({ dark, setDark }) {
       <Header dark={dark} setDark={setDark} />
 
       <Routes>
-        <Route path="/"                           element={<HomePage dark={dark} />} />
-        <Route path="/products"                   element={<ProductsPage dark={dark} />} />
-        <Route path="/products/personal-care"     element={<CategoryPage dark={dark} />} />
-        <Route path="/products/comfort-items"     element={<CategoryPage dark={dark} />} />
-        <Route path="/products/convenience-goods" element={<CategoryPage dark={dark} />} />
-        <Route path="/products/eco-friendly"      element={<CategoryPage dark={dark} />} />
-        <Route path="/about"                      element={<AboutPage dark={dark} />} />
-        <Route path="/contact"                    element={<ContactPage dark={dark} />} />
-        <Route path="*"                           element={<NotFoundPage dark={dark} />} />
+        <Route path="/"                              element={<HomePage dark={dark} />} />
+        <Route path="/products"                      element={<ProductsPage dark={dark} />} />
+        <Route path="/products/:productSlug/gallery" element={<ProductGalleryPage dark={dark} />} />
+        <Route path="/products/:slug"                element={<CategoryPage dark={dark} />} />
+        <Route path="/about"                         element={<AboutPage dark={dark} />} />
+        <Route path="/contact"                       element={<ContactPage dark={dark} />} />
+        <Route path="*"                              element={<NotFoundPage dark={dark} />} />
       </Routes>
 
       <Footer />
