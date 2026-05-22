@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, MessageCircle, ChevronRight, Package, Droplets, Shirt, Leaf, Images } from "lucide-react";
+import { ArrowRight, MessageCircle, ChevronRight, Package, Droplets, Shirt, Leaf, Images, BedDouble } from "lucide-react";
 import { fadeUp, stagger } from "../animations";
 import { Section, SectionLabel, SEOHead, ProductImage, ProductModal } from "../components/ui";
 import { PRODUCTS, PRODUCT_CATEGORIES } from "../data";
 
-const CAT_ICONS = { "personal-care": <Droplets size={18}/>, "comfort-items": <Shirt size={18}/>, "convenience-goods": <Package size={18}/>, "eco-friendly": <Leaf size={18}/> };
+const CAT_ICONS = { "personal-care": <Droplets size={18}/>, "comfort-items": <Shirt size={18}/>, "convenience-goods": <Package size={18}/>, "eco-friendly": <Leaf size={18}/>, "hotel-linen-bedding": <BedDouble size={18}/> };
 
 export default function ProductsPage({ dark }) {
   const [filter, setFilter] = useState("All");
