@@ -175,7 +175,7 @@ export default function AboutPage({ dark }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Gallery */}
-            <motion.div variants={fadeUp} className="relative order-2 lg:order-1">
+            {/*<motion.div variants={fadeUp} className="relative order-2 lg:order-1">
               <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[4/3] shadow-2xl">
                 {GALLERY_PHOTOS.map((photo, i) => (
                   <img
@@ -197,6 +197,7 @@ export default function AboutPage({ dark }) {
                   ))}
                 </div>
               </div>
+
               <motion.div variants={fadeUp} custom={0.3}
                 className={`absolute -bottom-5 right-0 sm:-bottom-6 sm:-right-4 lg:-right-8 ${dark ? "bg-[#0d1f33]" : "bg-white"} rounded-xl sm:rounded-2xl shadow-2xl p-4 sm:p-5 max-w-[155px] sm:max-w-[200px]`}
               >
@@ -211,7 +212,8 @@ export default function AboutPage({ dark }) {
                 </div>
                 <p className={`text-[10px] sm:text-[11px] ${muted} leading-snug`}>Trusted by hotels and resorts across Bali and Indonesia.</p>
               </motion.div>
-            </motion.div>
+
+            </motion.div>*/}
 
             {/* Content */}
             <div className="order-1 lg:order-2">
@@ -249,17 +251,14 @@ export default function AboutPage({ dark }) {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
             {[
               {
-                icon: "🎯",
                 label: "Our Mission",
                 desc: "To deliver consistently high-quality hospitality products that elevate guest experiences and empower every hotel property in Indonesia to exceed guest expectations."
               },
               {
-                icon: "🌟",
                 label: "Our Vision",
                 desc: "To become Indonesia's No.1 most trusted hotel amenities partner by 2030 — known for quality, innovation, and genuine care for our clients and their guests."
               },
               {
-                icon: "💚",
                 label: "Our Values",
                 desc: "Quality without compromise. Honest partnerships. Sustainable practices. Rapid response. Local expertise with a global standard."
               },
@@ -360,7 +359,7 @@ export default function AboutPage({ dark }) {
               <div className="h-px w-8 bg-amber-500" />
             </motion.div>
             <motion.h2 variants={fadeUp} className={`text-3xl sm:text-4xl font-black ${text} mb-3`}>
-              Feel fresh all day
+              Feel the Bali Spirit
             </motion.h2>
             <motion.p variants={fadeUp} className={`${muted} text-sm sm:text-base mb-10`}>
               Di balik setiap produk yang kami kirim, ada semangat dan kehangatan tim kami. Santai sejenak, nikmati suasananya.
