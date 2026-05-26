@@ -1,405 +1,444 @@
-// ─── SHARED DATA ─────────────────────────────────────────────────────────────
+import { useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence, useInView } from "framer-motion";
+import {
+  ArrowRight, MessageCircle, CheckCircle, Package,
+  Leaf, Award, Sparkles, Shield, Star, Heart,
+  Droplets, Shirt, ChevronRight
+} from "lucide-react";
+import { fadeUp, stagger } from "../animations";
+import { Section, SectionLabel, SEOHead, ProductImage } from "../components/ui";
+import { PRODUCT_CATEGORIES, PRODUCTS, WHY_ITEMS, GALLERY_PHOTOS } from "../data";
 
-export const PRODUCT_CATEGORIES = [
-  {
-    id: 1,
-    slug: "personal-care",
-    name: "Personal Care Essentials",
-    description: "Premium shampoo, conditioner, shower gel, body lotion, and soap crafted for a luxurious in-room experience.",
-    image: "/images/prod-01-shampoo-classic.jpg",
-    items: ["Shampoo", "Conditioner", "Shower Gel", "Body Lotion", "Bar Soap"],
-    color: "#1a3a5c",
-    accent: "#2c6e8a",
-    seo: {
-      title: "Personal Care Hotel Amenities Bali | Shampoo, Conditioner, Shower Gel | PT Kawan Baik Bali",
-      description: "Supplier personal care hotel amenities Bali: shampoo, conditioner, shower gel, body lotion, bar soap. HALAL & POM certified. Supply 500+ hotels di Bali & Indonesia.",
-    },
-  },
-  {
-    id: 2,
-    slug: "comfort-items",
-    name: "Comfort Items",
-    description: "Hotel-grade towels, plush bathrobes, and slippers designed to deliver superior softness and lasting durability.",
-    image: "/images/prod-14-hotel-slippers.jpg",
-    items: ["Bath Towels", "Bathrobe", "Hotel Slippers", "Face Towel", "Bath Mat"],
-    color: "#c9a84c",
-    accent: "#e0b84e",
-    seo: {
-      title: "Hotel Towels, Bathrobes & Slippers Supplier Bali | PT Kawan Baik Bali",
-      description: "Supplier handuk hotel, bathrobe & slippers Bali. 600 GSM 100% cotton towels, terry bathrobe custom embroidery, anti-slip slippers. Kualitas 5-star untuk hotel & resort Bali.",
-    },
-  },
-  {
-    id: 3,
-    slug: "convenience-goods",
-    name: "Convenience Goods",
-    description: "Cotton buds, shower caps, combs, dental kits, sewing kits, shaving kits, and all daily essentials guests expect.",
-    image: "/images/shower-cap-2.jpg",
-    items: ["Cotton Buds", "Shower Cap", "Comb", "Dental Kit", "Sewing Kit", "Shaving Kit"],
-    color: "#2c6e8a",
-    accent: "#3d8ca8",
-    seo: {
-      title: "Convenience Goods Hotel Amenities Bali | Cotton Buds, Shower Cap, Comb | PT Kawan Baik Bali",
-      description: "Supplier convenience goods hotel Bali: cotton buds, shower cap, sisir, dental kit, sewing kit, shaving kit, vanity kit. Fast delivery seluruh Bali & Indonesia.",
-    },
-  },
-  {
-    id: 4,
-    slug: "eco-material",
-    name: "Eco Material",
-    description: "Hotel amenities berbahan eco-material — wheat straw dan bambu. Ramah lingkungan, tahan lama, dan tampil elegan untuk hotel & resort yang peduli sustainability.",
-    image: "/images/eco-wheat-amenity-set.jpg",
-    items: ["Eco Bamboo Comb", "Eco Wheat Straw Comb", "Eco Razor", "Eco Toothbrush"],
-    color: "#3a7d44",
-    accent: "#4a9c56",
-    seo: {
-      title: "Eco Material Hotel Amenities Supplier Bali | Wheat Straw & Bamboo | PT Kawan Baik Bali",
-      description: "Supplier eco material hotel amenities Bali: sisir bambu, sisir wheat straw, razor eco, sikat gigi eco. Solusi sustainable untuk hotel & resort ramah lingkungan di Bali.",
-    },
-  },
-  {
-    id: 5,
-    slug: "hotel-linen-bedding",
-    name: "Hotel Linen & Bedding",
-    description: "Premium hotel-grade bed linen, bath towels, duvet covers, bolster cases, and mattress protectors for a superior sleep experience.",
-    image: "/images/bath-towel-white-blue.jpg",
-    items: ["Bath Towels", "Duvet Cover", "Duvet Insert", "Bed Protector", "Bolster Case"],
-    color: "#4a5568",
-    accent: "#718096",
-    seo: {
-      title: "Hotel Linen & Bedding Supplier Bali | Towels, Duvet, Bed Protector | PT Kawan Baik Bali",
-      description: "Supplier hotel linen & bedding Bali: bath towels, duvet cover, duvet insert, bed protector, bolster case. Kualitas premium untuk hotel & resort di Bali & Indonesia.",
-    },
-  },
-];
+// ─── HERO ─────────────────────────────────────────────────────────────────────
 
-export const PRODUCTS = [
-  // ─── PERSONAL CARE ESSENTIALS ──────────────────────────────────────────────
-  {
-    id: 3,
-    slug: "shampoo-multi-variant",
-    name: "Shampoo Multi Variant",
-    category: "Personal Care Essentials",
-    categorySlug: "personal-care",
-    image: "/images/shampoo-multi-variant-collection.jpg",
-    description: "Complete shampoo collection — aromatherapy, jasmine, apple, frangipani, and 2-in-1 variants available in bulk and single-use sizes.",
-    gallery: [],
-  },
-  {
-    id: 4,
-    slug: "shampoo-conditioner-bungan-jepun",
-    name: "Shampoo & Conditioner Bungan Jepun",
-    category: "Personal Care Essentials",
-    categorySlug: "personal-care",
-    image: "/images/shampoo-conditioner-bungan-jepun.jpg",
-    description: "Premium Bungan Jepun branded shampoo and conditioner set — jasmine, frangipani, apple aromatherapy, and 2-in-1 variants.",
-    gallery: [],
-  },
-  {
-    id: 6,
-    slug: "hair-conditioner-multi-variant",
-    name: "Hair Conditioner Multi Variant",
-    category: "Personal Care Essentials",
-    categorySlug: "personal-care",
-    image: "/images/hair-conditioner-multi-variant.jpg",
-    description: "Multi-variant conditioner collection — green, cream, and light-green formula options available in bulk and single-use sizes.",
-    gallery: [],
-  },
-  {
-    id: 9,
-    slug: "shower-gel-foam-bath-collection",
-    name: "Shower Gel & Foam Bath Collection",
-    category: "Personal Care Essentials",
-    categorySlug: "personal-care",
-    image: "/images/shower-gel-foam-bath-collection.jpg",
-    description: "Complete shower gel and foam bath product line — available in bulk 5L and single-use 30ml hotel amenity tubes.",
-    gallery: [],
-  },
-  {
-    id: 13,
-    slug: "hand-soap-multi-variant",
-    name: "Hand Soap Multi Variant",
-    category: "Personal Care Essentials",
-    categorySlug: "personal-care",
-    image: "/images/hand-soap-multi-variant.jpg",
-    description: "Hotel hand soap available in multiple fragrances and formulas — bulk and single-use sizes for guest bathrooms.",
-    gallery: [],
-  },
-  {
-    id: 15,
-    slug: "bar-soap",
-    name: "Bar Soap",
-    category: "Personal Care Essentials",
-    categorySlug: "personal-care",
-    image: "/images/prod-10-bar-soap.jpg",
-    description: "Wrapped bar soap 15gr, HALAL-certified. Classic hotel presentation.",
-    gallery: [],
-  },
-  {
-    id: 16,
-    slug: "hotel-soap",
-    name: "Hotel Soap Premium",
-    category: "Personal Care Essentials",
-    categorySlug: "personal-care",
-    image: "/images/prod-11-hotel-soap.jpg",
-    description: "Hotel soap bar 25gr, premium pleated wrap. HALAL-certified, elegant finish.",
-    gallery: [],
-  },
+function Hero({ dark }) {
+  const navigate = useNavigate();
+  return (
+    <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/hero.jpeg"
+          alt="Gapura Bali — Hotel Amenities Supplier Bali | PT Kawan Baik Bali"
+          className="w-full h-full object-cover"
+          style={{
+            minHeight: "100vh",
+            objectPosition: "center 30%",
+          }}
+          loading="eager"
+          fetchPriority="high"
+        />
+        {/* Gradient kiri — lebih tipis agar foto tetap cerah */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0d2137]/70 via-[#0d2137]/25 to-transparent" />
+        {/* Gradient bawah tipis */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0d2137]/50 via-transparent to-transparent" />
+      </div>
 
-  // ─── COMFORT ITEMS ─────────────────────────────────────────────────────────
-  {
-    id: 17,
-    slug: "hotel-slippers-woven-green",
-    name: "Hotel Slippers Woven Green",
-    category: "Comfort Items",
-    categorySlug: "comfort-items",
-    image: "/images/prod-17-hotel-slippers.jpg",
-    description: "Open-toe woven pandan/bamboo slippers with green fabric border — natural texture, lightweight, and eco-friendly feel for hotel & villa use.",
-    gallery: [],
-  },
-  {
-    id: 18,
-    slug: "hotel-slippers-woven-natural",
-    name: "Hotel Slippers Woven Natural",
-    category: "Comfort Items",
-    categorySlug: "comfort-items",
-    image: "/images/prod-18-hotel-slippers.jpg",
-    description: "Open-toe woven bamboo slippers with natural cream/white border — elegant neutral tone, breathable, and perfect for eco-conscious hotels & resorts.",
-    gallery: [],
-  },
- {
-    id: 19,
-    slug: "hotel-slippers",
-    name: "Hotel Slippers",
-    category: "Comfort Items",
-    categorySlug: "comfort-items",
-    image: "/images/prod-14-hotel-slippers.jpg",
-    description: "Closed-toe or open-toe slippers with non-slip sole, elegant and durable.",
-    gallery: [],
-  },
+      <div className="absolute top-24 right-4 sm:right-10 lg:right-32 w-32 sm:w-48 lg:w-64 h-32 sm:h-48 lg:h-64 rounded-full border border-amber-400/20 animate-pulse" />
+      <div className="absolute top-32 right-10 sm:right-20 lg:right-40 w-20 sm:w-32 lg:w-40 h-20 sm:h-32 lg:h-40 rounded-full border border-amber-400/10" />
 
-  // ─── CONVENIENCE GOODS ─────────────────────────────────────────────────────
-  {
-    id: 20,
-    slug: "cotton-buds",
-    name: "Cotton Buds",
-    category: "Convenience Goods",
-    categorySlug: "convenience-goods",
-    image: "/images/cotton-buds.jpg",
-    description: "100% pure cotton buds, safely designed and individually sealed for hotel use.",
-    gallery: [],
-  },
-  {
-    id: 21,
-    slug: "shower-cap",
-    name: "Shower Cap",
-    category: "Convenience Goods",
-    categorySlug: "convenience-goods",
-    image: "/images/shower-cap-1.jpg",
-    gallery: [
-      { src: "/images/shower-cap-2.jpg", caption: "Shower Cap with box packaging" },
-    ],
-    description: "Waterproof PE shower cap, individually wrapped in elegant packaging.",
-  },
-  {
-    id: 22,
-    slug: "hotel-comb",
-    name: "Hotel Comb",
-    category: "Convenience Goods",
-    categorySlug: "convenience-goods",
-    image: "/images/hotel-comb.jpg",
-    description: "Fine-tooth hotel comb in hygienic packaging, smooth finish for all hair types.",
-    gallery: [],
-  },
-  {
-    id: 23,
-    slug: "dental-kit",
-    name: "Dental Kit",
-    category: "Convenience Goods",
-    categorySlug: "convenience-goods",
-    image: "/images/dental-kit.jpg",
-    description: "Hotel dental kit with toothbrush and toothpaste — complete oral care for every guest.",
-    gallery: [],
-  },
-  {
-    id: 24,
-    slug: "sewing-kit",
-    name: "Sewing Kit",
-    category: "Convenience Goods",
-    categorySlug: "convenience-goods",
-    image: "/images/sewing-kit-1.jpg",
-    description: "Compact hotel sewing kit with needles, thread, and buttons — packaged for in-room use.",
-    gallery: [],
-  },
-  {
-    id: 25,
-    slug: "shaving-kit",
-    name: "Shaving Kit",
-    category: "Convenience Goods",
-    categorySlug: "convenience-goods",
-    image: "/images/shaving-kit-1.jpg",
-    gallery: [
-      { src: "/images/shaving-kit-2.jpg", caption: "Shaving Kit with box packaging" },
-    ],
-    description: "Hotel shaving kit with disposable razor and shaving cream — neatly packaged in a white box.",
-  },
-  {
-    id: 26,
-    slug: "vanity-kit",
-    name: "Vanity Kit",
-    category: "Convenience Goods",
-    categorySlug: "convenience-goods",
-    image: "/images/vanity-kit.jpg",
-    description: "Complete hotel vanity kit — cotton pads, nail file, and personal care essentials in one elegant package.",
-    gallery: [],
-  },
-  {
-    id: 27,
-    slug: "sanitary-bag",
-    name: "Sanitary Bag",
-    category: "Convenience Goods",
-    categorySlug: "convenience-goods",
-    image: "/images/sanitary-bag-1.jpg",
-    gallery: [
-      { src: "/images/sanitary-bag-2.jpg", caption: "Sanitary Bag with box packaging" },
-    ],
-    description: "Hygienic hotel sanitary bag, individually packaged in a clean white box for bathroom use.",
-  },
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32 sm:pt-24 sm:pb-36">
+        <div className="max-w-3xl">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="flex items-center gap-3 mb-5 sm:mb-6"
+          >
+            <div className="h-px w-10 bg-amber-400" />
+            <span className="text-amber-400 text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase">PT Kawan Baik Bali</span>
+          </motion.div>
 
-  // ─── ECO-FRIENDLY SOLUTIONS ────────────────────────────────────────────────
-  {
-    id: 28,
-    slug: "eco-bamboo-wheat-comb",
-    name: "Eco Bamboo & Wheat Straw Comb",
-    category: "Eco Material",
-    categorySlug: "eco-material",
-    image: "/images/eco-bamboo-wheat-comb.jpg",
-    description: "Sisir berbahan bambu alami dan wheat straw — pilihan eco-friendly yang elegant untuk kamar hotel & resort.",
-    gallery: [],
-  },
-  {
-    id: 29,
-    slug: "eco-wheat-razor",
-    name: "Eco Wheat Straw Razor",
-    category: "Eco Material",
-    categorySlug: "eco-material",
-    image: "/images/eco-wheat-razor-variants.jpg",
-    description: "Razor berbahan wheat straw dengan 4 pilihan desain — ramah lingkungan, tajam, dan nyaman untuk tamu hotel.",
-    gallery: [],
-  },
-  {
-    id: 30,
-    slug: "eco-amenity-set",
-    name: "Eco Material Amenity Set",
-    category: "Eco Material",
-    categorySlug: "eco-material",
-    image: "/images/eco-wheat-amenity-set.jpg",
-    description: "Set lengkap eco amenities — sisir, sikat gigi, dan razor berbahan wheat straw. Satu paket sustainable untuk in-room amenity.",
-    gallery: [],
-  },
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white leading-[1.05] tracking-tight mb-5 sm:mb-6"
+          >
+            Premium Hotel
+            <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-amber-500">
+              Amenities
+            </span>
+            <br />
+            Supplier in Bali
+          </motion.h1>
 
-  // ─── HOTEL LINEN & BEDDING ─────────────────────────────────────────────────
-  {
-    id: 31,
-    slug: "bath-towel-white-blue",
-    name: "Bath Towel White Blue",
-    category: "Hotel Linen & Bedding",
-    categorySlug: "hotel-linen-bedding",
-    image: "/images/bath-towel-white-blue.jpg",
-    description: "Premium hotel bath towel in white and blue stripe — soft, absorbent, and durable for daily hotel use.",
-    gallery: [],
-  },
-  {
-    id: 32,
-    slug: "bath-towel-white-grey",
-    name: "Bath Towel White Grey",
-    category: "Hotel Linen & Bedding",
-    categorySlug: "hotel-linen-bedding",
-    image: "/images/bath-towel-white-grey.jpg",
-    description: "Elegant white and grey stripe bath towel — 100% cotton, hotel-grade absorbency and softness.",
-    gallery: [],
-  },
-  {
-    id: 33,
-    slug: "bath-towel-blue-green",
-    name: "Bath Towel Blue Green",
-    category: "Hotel Linen & Bedding",
-    categorySlug: "hotel-linen-bedding",
-    image: "/images/bath-towel-blue-green.jpg",
-    description: "Vibrant blue and green stripe bath towel — thick cotton weave for superior comfort and longevity.",
-    gallery: [],
-  },
-  {
-    id: 34,
-    slug: "bath-towel-orange-yellow",
-    name: "Bath Towel Orange Yellow",
-    category: "Hotel Linen & Bedding",
-    categorySlug: "hotel-linen-bedding",
-    image: "/images/bath-towel-orange-yellow.jpg",
-    description: "Bold orange and yellow striped bath towel — ideal for resort and villa settings seeking vibrant color options.",
-    gallery: [],
-  },
-  {
-    id: 35,
-    slug: "hotel-duvet-cover",
-    name: "Hotel Duvet Cover",
-    category: "Hotel Linen & Bedding",
-    categorySlug: "hotel-linen-bedding",
-    image: "/images/hotel-duvet-cover.jpg",
-    description: "Striped hotel duvet cover in premium cotton blend — elegant design that elevates any hotel bedroom.",
-    gallery: [],
-  },
-  {
-    id: 36,
-    slug: "hotel-duvet-insert",
-    name: "Hotel Duvet Insert",
-    category: "Hotel Linen & Bedding",
-    categorySlug: "hotel-linen-bedding",
-    image: "/images/hotel-duvet-insert.jpg",
-    description: "Plush hotel duvet insert with premium fill — provides consistent warmth and comfort for all-season use.",
-    gallery: [],
-  },
-  {
-    id: 37,
-    slug: "hotel-bed-protector",
-    name: "Hotel Bed Protector",
-    category: "Hotel Linen & Bedding",
-    categorySlug: "hotel-linen-bedding",
-    image: "/images/hotel-bed-protector.jpg",
-    description: "Waterproof hotel mattress protector — hygienic, breathable, and easy to clean for high-turnover hotel use.",
-    gallery: [],
-  },
-  {
-    id: 38,
-    slug: "hotel-bolster-case",
-    name: "Hotel Bolster Case",
-    category: "Hotel Linen & Bedding",
-    categorySlug: "hotel-linen-bedding",
-    image: "/images/hotel-bolster-case.jpg",
-    description: "TC 200 hotel bolster case — smooth, wrinkle-resistant fabric for a neat and professional bed presentation.",
-    gallery: [],
-  },
-];
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.5 }}
+            className="text-base sm:text-lg lg:text-xl text-white/75 leading-relaxed mb-8 sm:mb-10 max-w-xl"
+          >
+            Enhancing guest experiences with quality, luxury, and sustainability
+          </motion.p>
 
-export const WHY_ITEMS = [
-  { title: "Local Expertise",          desc: "Deeply rooted in Bali's hospitality industry, we understand what hotels and resorts truly need to impress their guests." },
-  { title: "Clever Innovation",        desc: "We continuously develop new amenity solutions — from refillable dispenser systems to eco packaging — staying ahead of industry trends." },
-  { title: "Exceptional Service",      desc: "Dedicated account managers, flexible MOQ, fast delivery across Bali and all of Indonesia. Your deadlines are our priority." },
-  { title: "Sustainable Commitment",   desc: "We offer a full eco-friendly product line and partner with manufacturers who share our commitment to environmental responsibility." },
-  { title: "Quality Assurance",        desc: "Every product is quality-checked before delivery. We supply 5-star resorts, boutique hotels, and villa complexes across Bali." },
-  { title: "Trusted Partnership",      desc: "We build long-term relationships — not just transactions. Our clients return because we genuinely care about their success." },
-];
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.65 }}
+            className="flex flex-row flex-wrap gap-3 sm:gap-4"
+          >
+            <Link
+              to="/products"
+              className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold shadow-xl shadow-amber-900/30 hover:shadow-amber-500/50 hover:-translate-y-1 transition-all duration-300 text-sm sm:text-base"
+            >
+              View Products <ArrowRight size={16} />
+            </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full border-2 border-white/40 text-white font-bold hover:bg-white/10 hover:border-white/70 hover:-translate-y-1 transition-all duration-300 text-sm sm:text-base"
+            >
+              Contact Us
+            </Link>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
-export const GALLERY_PHOTOS = [
-  "/images/prod-02-shampoo-aromatherapy.jpg",
-  "/images/prod-08-bath-foam.jpg",
-  "/images/prod-03-hair-conditioner.jpg",
-  "/images/prod-07-body-lotion-classic.jpg",
-];
+// ─── ABOUT SNIPPET ────────────────────────────────────────────────────────────
 
-export const CONTACT_INFO = [
-  { label: "Phone",   value: "+62 8810 3736 6555",                                         href: "tel:+62881037366555" },
-  { label: "Email",   value: "kawanbaik.bali@gmail.com",                                   href: "mailto:kawanbaik.bali@gmail.com" },
-  { label: "Website", value: "www.kawanbaikbali.com",                                       href: "https://kawanbaikbali.com" },
-  { label: "Address", value: "Blk. A3 No.31, Kerobokan Kaja, Kec. Kuta Utara, Kabupaten Badung, Bali 80361", href: "#" },
-];
+function AboutSnippet({ dark }) {
+  const bg = dark ? "bg-[#0d1f33]" : "bg-white";
+  const text = dark ? "text-white" : "text-[#1a3a5c]";
+  const muted = dark ? "text-white/60" : "text-slate-600";
+  const cardBg = dark ? "bg-white/5 border-white/10" : "bg-slate-50 border-slate-100";
+
+  return (
+    <Section id="about-snippet" className={`py-16 sm:py-20 lg:py-32 ${bg} transition-colors duration-300`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <motion.div variants={fadeUp} className="relative order-2 lg:order-1">
+            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[3/4] shadow-2xl">
+              <video
+                src="/view_products.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1a3a5c]/30 via-transparent" />
+            </div>
+          </motion.div>
+
+          <div className="order-1 lg:order-2">
+            <SectionLabel text="About Us" />
+            <motion.h2 variants={fadeUp} className={`text-3xl sm:text-3xl lg:text-4xl xl:text-5xl font-black ${text} leading-tight mb-5 sm:mb-6`}>
+              Bali's Most Trusted Hotel
+              <span className="text-amber-500"> Amenities Partner</span>
+            </motion.h2>
+            <motion.div variants={fadeUp} className={`space-y-4 ${muted} leading-relaxed text-sm sm:text-base`}>
+              <p>
+                <strong className={text}>PT Kawan Baik Bali</strong> is a leading hospitality supply company headquartered in Bali, Indonesia. We specialise in providing comprehensive hotel amenities for hotels, resorts, villas, and spas across the archipelago.
+              </p>
+              <p>
+                We believe the right amenities tell your guests: <em>"We care."</em> Our mission is to help every property deliver that experience — affordably, reliably, and beautifully.
+              </p>
+            </motion.div>
+
+            <motion.div variants={fadeUp} className="mt-6 sm:mt-8">
+              <Link
+                to="/about"
+                className="inline-flex items-center gap-2 font-bold text-sm group"
+                style={{ color: dark ? "#f59e0b" : "#1a3a5c" }}
+              >
+                Learn More About Us
+                <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+// ─── FEATURED CATEGORIES ──────────────────────────────────────────────────────
+
+function FeaturedCategories({ dark }) {
+  const bg = dark ? "bg-[#071526]" : "bg-[#f8f9fc]";
+  const text = dark ? "text-white" : "text-[#1a3a5c]";
+  const muted = dark ? "text-white/50" : "text-slate-500";
+  const cardBg = dark ? "bg-[#0d1f33] shadow-black/30" : "bg-white shadow-slate-200/80";
+  const tagBg = dark ? "bg-white/10 text-white/70" : "bg-slate-100 text-slate-600";
+
+  return (
+    <Section id="categories" className={`py-16 sm:py-20 lg:py-32 ${bg} transition-colors duration-300`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-10 sm:mb-16">
+          <SectionLabel text="What We Offer" />
+          <motion.h2 variants={fadeUp} className={`text-3xl sm:text-3xl lg:text-5xl font-black ${text} leading-tight`}>
+            Product Categories
+          </motion.h2>
+          <motion.p variants={fadeUp} className={`mt-3 sm:mt-4 ${muted} max-w-xl mx-auto text-sm sm:text-base`}>
+            Four core categories covering every hotel amenity need — from personal care to sustainable alternatives.
+          </motion.p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {PRODUCT_CATEGORIES.map((cat, i) => (
+            <motion.div
+              key={cat.id}
+              variants={fadeUp}
+              custom={i}
+              className={`group rounded-2xl sm:rounded-3xl overflow-hidden ${cardBg} shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer`}
+              style={{ willChange: "transform" }}
+            >
+              <div className="relative h-40 sm:h-48 overflow-hidden">
+                <img
+                  src={cat.image}
+                  alt={cat.name}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+                <div
+                  className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center text-white"
+                  style={{ backgroundColor: cat.color }}
+                >
+                  {i === 0 ? <Droplets size={22} /> : i === 1 ? <Shirt size={22} /> : i === 2 ? <Package size={22} /> : <Leaf size={22} />}
+                </div>
+              </div>
+
+              <div className="p-4 sm:p-5">
+                <h3 className={`font-black ${text} text-base mb-2 leading-tight`}>{cat.name}</h3>
+                <p className={`${muted} text-sm leading-relaxed mb-3 sm:mb-4`}>{cat.description}</p>
+                <div className="flex flex-wrap gap-1.5 mb-3 sm:mb-4">
+                  {cat.items.slice(0, 3).map((item) => (
+                    <span key={item} className={`text-xs font-semibold ${tagBg} px-2 py-0.5 rounded-full`}>{item}</span>
+                  ))}
+                  {cat.items.length > 3 && (
+                    <span className={`text-xs font-semibold ${tagBg} px-2 py-0.5 rounded-full`}>+{cat.items.length - 3}</span>
+                  )}
+                </div>
+                <Link
+                  to={`/products/${cat.slug}`}
+                  className="flex items-center gap-1 text-sm font-bold group/btn"
+                  style={{ color: cat.color }}
+                >
+                  Explore
+                  <ChevronRight size={14} className="transition-transform group-hover/btn:translate-x-1" />
+                </Link>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div variants={fadeUp} className="mt-10 sm:mt-12 text-center">
+          <Link
+            to="/products"
+            className={`inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full border-2 font-bold hover:-translate-y-0.5 transition-all duration-200 text-sm sm:text-base ${
+              dark
+                ? "border-amber-500 text-amber-400 hover:bg-amber-500/10"
+                : "border-[#1a3a5c] text-[#1a3a5c] hover:bg-[#1a3a5c] hover:text-white"
+            }`}
+          >
+            View All Products <ArrowRight size={16} />
+          </Link>
+        </motion.div>
+      </div>
+    </Section>
+  );
+}
+
+
+// ─── MAP SECTION ─────────────────────────────────────────────────────────────
+
+function MapSection({ dark }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const text = dark ? "text-white" : "text-[#1a3a5c]";
+  const muted = dark ? "text-white/50" : "text-slate-500";
+
+  return (
+    <Section
+      id="location"
+      className={`py-14 sm:py-20 transition-colors duration-300 ${dark ? "bg-[#0d1f33]" : "bg-[#f8f9fc]"}`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          ref={ref}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center"
+        >
+          {/* Text side */}
+          <div>
+            <motion.div variants={fadeUp} className="flex items-center gap-3 mb-4">
+              <div className="h-px w-8 bg-amber-500" />
+              <span className="text-amber-600 text-xs font-bold tracking-[0.25em] uppercase">Our Location</span>
+            </motion.div>
+            <motion.h2 variants={fadeUp} className={`text-3xl sm:text-4xl font-black ${text} leading-tight mb-4`}>
+              Visit Our Office<br />in Bali
+            </motion.h2>
+            <motion.p variants={fadeUp} className={`${muted} text-sm sm:text-base leading-relaxed mb-6`}>
+              Kami berlokasi di Kerobokan Kaja, Kuta Utara — mudah dijangkau dari kawasan Seminyak, Canggu, dan Denpasar. Tim kami siap menyambut kunjungan Anda untuk diskusi kebutuhan hotel amenities.
+            </motion.p>
+            <motion.div variants={fadeUp} className="space-y-3">
+              <div className={`flex items-start gap-3 text-sm ${muted}`}>
+                <span className="text-amber-500 mt-0.5">📍</span>
+                <span>Blk. A3 No.31, Kerobokan Kaja, Kec. Kuta Utara,<br />Kabupaten Badung, Bali 80361</span>
+              </div>
+              <div className={`flex items-center gap-3 text-sm ${muted}`}>
+                <span className="text-amber-500">📞</span>
+                <a href="tel:+62881037366555" className="hover:text-amber-500 transition-colors">+62 8810 3736 6555</a>
+              </div>
+              <div className={`flex items-center gap-3 text-sm ${muted}`}>
+                <span className="text-amber-500">✉️</span>
+                <a href="mailto:kawanbaik.bali@gmail.com" className="hover:text-amber-500 transition-colors">kawanbaik.bali@gmail.com</a>
+              </div>
+            </motion.div>
+            <motion.div variants={fadeUp} className="mt-7">
+              <a
+                href="https://maps.google.com/?q=Kawan+Baik+Bali"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full border-2 font-bold text-sm hover:-translate-y-0.5 transition-all duration-200 ${
+                  dark
+                    ? "border-amber-500 text-amber-400 hover:bg-amber-500/10"
+                    : "border-[#1a3a5c] text-[#1a3a5c] hover:bg-[#1a3a5c] hover:text-white"
+                }`}
+              >
+                Open in Google Maps <ArrowRight size={14} />
+              </a>
+            </motion.div>
+          </div>
+
+          {/* Map side */}
+          <motion.div variants={fadeUp} className="w-full">
+            <div className={`rounded-2xl overflow-hidden shadow-xl border ${dark ? "border-white/10" : "border-slate-200"}`} style={{ height: "380px" }}>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.6160619548473!2d115.16478057433676!3d-8.632806687760878!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd239002f2a6e75%3A0xbc7b96b8221e62de!2sKawan%20Baik%20Bali!5e0!3m2!1sid!2sid!4v1779453064729!5m2!1sid!2sid"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Kawan Baik Bali Office Location"
+              />
+            </div>
+          </motion.div>
+        </motion.div>
+      </div>
+    </Section>
+  );
+}
+
+// ─── CTA SECTION ─────────────────────────────────────────────────────────────
+
+function CTASection() {
+  return (
+    <Section id="cta" className="py-16 sm:py-24 bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 relative overflow-hidden">
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-0 left-0 w-full h-full" style={{backgroundImage: "radial-gradient(circle at 20% 50%, white 1px, transparent 1px)", backgroundSize: "40px 40px"}} />
+      </div>
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
+        <motion.h2 variants={fadeUp} className="text-3xl sm:text-3xl lg:text-5xl font-black text-white leading-tight mb-4">
+          Ready to Transform Your
+          <br />Guest Experience?
+        </motion.h2>
+        <motion.p variants={fadeUp} className="text-white/80 text-sm sm:text-lg mb-8 sm:mb-10 max-w-xl mx-auto">
+          Contact us today for a personalised quote. Fast response, no obligation — just a friendly conversation about your needs.
+        </motion.p>
+        <motion.div variants={fadeUp} className="flex flex-row flex-wrap gap-3 sm:gap-4 justify-center">
+          <a
+            href="https://wa.me/62881037366555?text=Hello%20PT%20Kawan%20Baik%20Bali%2C%20I%20would%20like%20to%20discuss%20hotel%20amenities%20supply."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-white text-amber-600 font-black shadow-2xl shadow-amber-900/30 hover:-translate-y-1 transition-all duration-300 text-sm sm:text-base"
+          >
+            <MessageCircle size={18} />
+            Chat on WhatsApp
+          </a>
+          <Link
+            to="/contact"
+            className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full border-2 border-white text-white font-black hover:bg-white hover:text-amber-600 transition-all duration-300 text-sm sm:text-base"
+          >
+            Send Enquiry
+          </Link>
+        </motion.div>
+      </div>
+    </Section>
+  );
+}
+
+
+// ─── CLIENTS BANNER ───────────────────────────────────────────────────────────
+
+function ClientsBanner({ dark }) {
+  const bg   = dark ? "bg-[#0a1929]"  : "bg-[#f0f4f8]";
+  const text = dark ? "text-white"    : "text-[#1a3a5c]";
+  const muted = dark ? "text-white/50" : "text-slate-500";
+
+  return (
+    <section className={`py-14 sm:py-16 transition-colors duration-300 ${bg}`}>
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={stagger}
+        >
+          <motion.div variants={fadeUp} className="flex items-center justify-center gap-3 mb-4">
+            <div className="h-px w-8 bg-amber-500" />
+            <span className="text-amber-600 text-xs font-bold tracking-[0.25em] uppercase">Our Clients</span>
+            <div className="h-px w-8 bg-amber-500" />
+          </motion.div>
+          <motion.h2 variants={fadeUp} className={`text-3xl sm:text-4xl font-black ${text} mb-3`}>
+            Hotel & Resort di Bali<br className="hidden sm:block" /> yang Mempercayai Kami
+          </motion.h2>
+          <motion.p variants={fadeUp} className={`${muted} text-sm sm:text-base mb-8`}>
+            Kami bangga melayani berbagai hotel dan resort di Bali — dari properti butik hingga hotel berbintang. Kepercayaan klien adalah prioritas utama kami.
+          </motion.p>
+          <motion.div variants={fadeUp} className="flex flex-wrap gap-3 justify-center">
+            <Link
+              to="/clients"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#1a3a5c] text-white font-black text-sm hover:bg-amber-500 hover:-translate-y-1 transition-all duration-300 shadow-lg"
+            >
+              Lihat Semua Klien Kami <ArrowRight size={16} />
+            </Link>
+            <Link
+              to="/about#vibe"
+              className={`inline-flex items-center gap-2 px-8 py-4 rounded-full border-2 font-black text-sm hover:-translate-y-1 transition-all duration-300 ${
+                dark
+                  ? "border-amber-500 text-amber-400 hover:bg-amber-500/10"
+                  : "border-[#1a3a5c] text-[#1a3a5c] hover:bg-[#1a3a5c] hover:text-white"
+              }`}
+            >
+              🎵 Our Vibe
+            </Link>
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ─── HOME PAGE ────────────────────────────────────────────────────────────────
+
+export default function HomePage({ dark }) {
+  return (
+    <>
+      <SEOHead
+        title="Hotel Amenities Supplier in Bali | PT Kawan Baik Bali"
+        description="PT Kawan Baik Bali — trusted hotel amenities & hospitality supplier in Bali, Indonesia. We supply toiletries, towels, bathrobes, slippers & eco-friendly amenities to 500+ hotels across Bali. Fast delivery, flexible MOQ."
+        canonical="https://www.kawanbaikbali.com/"
+        ogImage="https://www.kawanbaikbali.com/og-image.jpeg"
+      />
+      <main>
+        <Hero dark={dark} />
+        <AboutSnippet dark={dark} />
+        <FeaturedCategories dark={dark} />
+        <ClientsBanner dark={dark} />
+        <MapSection dark={dark} />
+        <CTASection />
+      </main>
+    </>
+  );
+}
