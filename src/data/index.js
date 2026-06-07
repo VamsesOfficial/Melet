@@ -453,6 +453,7 @@ export const PRODUCTS = [
       { src: "/images/payung-golf-nf58-biru-silver.jpg", caption: "Payung Golf Fiber Otomatis NF-58 – Biru Silver" },
     ],
   },
+  ];
 export const WHY_ITEMS = [
   { title: "Local Expertise",          desc: "Deeply rooted in Bali's hospitality industry, we understand what hotels and resorts truly need to impress their guests." },
   { title: "Clever Innovation",        desc: "We continuously develop new amenity solutions — from refillable dispenser systems to eco packaging — staying ahead of industry trends." },
