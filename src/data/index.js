@@ -436,24 +436,23 @@ export const PRODUCTS = [
 
   // ─── PAYUNG PROMOSI / CUSTOM BRANDED ──────────────────────────────────────
   {
-    id: 43,
-    slug: "payung-signature-garage-navy",
-    name: "Payung Golf Custom – Signature Garage Navy",
+    id: 47,
+    slug: "payung-mazari-group-hitam-side",
+    name: "Payung Golf Custom – Mazari Group Hitam",
     category: "Payung Promosi",
     categorySlug: "payung-promosi",
-    image: "/images/payung-signature-garage-navy.jpg",
-    description: "Payung golf promosi ukuran besar dengan kanopi navy gelap dan logo Signature Garage putih — rangka besi kokoh, pegangan ergonomis, ideal untuk merchandise korporat dan event.",
+    image: "/images/payung-mazari-group-hitam-side.jpg",
+    description: "Payung golf premium hitam elegan dengan logo 'Mazari Group' emas metalik — tampilan sisi yang mewah, piping silver halus, gagang aluminium. Cocok untuk corporate gift eksklusif.",
     gallery: [
-      "/images/payung-cbm-biru-top-view.jpg",
-      "/images/payung-berani-kita-beda-putih.jpg",
-      "/images/payung-cbm-merah-side.jpg",
-      "/images/payung-mazari-group-hitam-side.jpg",
-      "/images/payung-mazari-group-hitam-top.jpg",
-      "/images/payung-golf-nf58-ungu.jpg",
-      "/images/payung-golf-nf58-biru-silver.jpg",
+      { src: "/images/payung-mazari-group-hitam-top.jpg", caption: "Tampak atas — branding 360° di setiap panel kanopi" },
+      { src: "/images/payung-signature-garage-navy.jpg", caption: "Payung Golf Custom – Signature Garage Navy" },
+      { src: "/images/payung-cbm-biru-top-view.jpg", caption: "Payung Golf Custom – CBM Distributor Plafon PVC Biru" },
+      { src: "/images/payung-berani-kita-beda-putih.jpg", caption: "Payung Golf Custom – Berani Kita Beda (HS) Putih" },
+      { src: "/images/payung-cbm-merah-side.jpg", caption: "Payung Golf Custom – CBM Distributor Plafon PVC Merah" },
+      { src: "/images/payung-golf-nf58-ungu.jpg", caption: "Payung Golf Fiber Otomatis NF-58 – Ungu Silver" },
+      { src: "/images/payung-golf-nf58-biru-silver.jpg", caption: "Payung Golf Fiber Otomatis NF-58 – Biru Silver" },
     ],
   },
-
 export const WHY_ITEMS = [
   { title: "Local Expertise",          desc: "Deeply rooted in Bali's hospitality industry, we understand what hotels and resorts truly need to impress their guests." },
   { title: "Clever Innovation",        desc: "We continuously develop new amenity solutions — from refillable dispenser systems to eco packaging — staying ahead of industry trends." },
