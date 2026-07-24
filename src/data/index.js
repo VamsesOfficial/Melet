@@ -453,6 +453,50 @@ export const PRODUCTS = [
       { src: "/images/payung-golf-nf58-biru-silver.jpg", caption: "Payung Golf Fiber Otomatis NF-58 – Biru Silver" },
     ],
   },
+
+  // ─── ECO MATERIAL (SLIPPERS ANYAMAN TAMBAHAN) ─────────────────────────────
+  {
+    id: 48,
+    slug: "hotel-slippers-woven-beige-linen",
+    name: "Hotel Slippers Woven Beige Linen",
+    category: "Eco Material",
+    categorySlug: "eco-material",
+    image: "/images/hotel-slippers-woven-beige-linen.jpg",
+    description: "Closed-toe slippers berbahan anyaman linen alami warna beige dengan piping putih — eco-friendly, lembut, dan nyaman untuk in-room amenity hotel & villa.",
+    gallery: [
+      { src: "/images/hotel-slippers-woven-beige-linen-sole.jpg", caption: "Tampak sol anti-slip dan sisi dalam slipper" },
+    ],
+  },
+  {
+    id: 49,
+    slug: "hotel-slippers-woven-jute-natural",
+    name: "Hotel Slippers Woven Jute Natural",
+    category: "Eco Material",
+    categorySlug: "eco-material",
+    image: "/images/hotel-slippers-woven-jute-natural.jpg",
+    description: "Closed-toe slippers anyaman jute natural bertekstur kasar dengan piping putih dan sol tan — bahan alami ramah lingkungan, kesan rustic dan earthy untuk resort tropis.",
+    gallery: [],
+  },
+  {
+    id: 50,
+    slug: "hotel-slippers-slide-black-trim",
+    name: "Hotel Slippers Slide Black Trim",
+    category: "Eco Material",
+    categorySlug: "eco-material",
+    image: "/images/hotel-slippers-slide-black-trim.jpg",
+    description: "Slide slippers open-toe dengan anyaman bambu/rotan alami dan list hitam tebal — bahan eco-friendly, sol empuk anti-slip, tampilan modern untuk spa & resort.",
+    gallery: [],
+  },
+  {
+    id: 51,
+    slug: "hotel-slippers-woven-grey-mat",
+    name: "Hotel Slippers Woven Grey Mat",
+    category: "Eco Material",
+    categorySlug: "eco-material",
+    image: "/images/hotel-slippers-woven-grey-mat.jpg",
+    description: "Closed-toe slippers anyaman tikar alami abu-abu muda dengan piping putih — tekstur eco-friendly yang elegan, ringan, dan nyaman dipakai di kamar hotel.",
+    gallery: [],
+  },
   ];
 export const WHY_ITEMS = [
   { title: "Local Expertise",          desc: "Deeply rooted in Bali's hospitality industry, we understand what hotels and resorts truly need to impress their guests." },
