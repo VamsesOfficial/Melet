@@ -1,6 +1,22 @@
+# Izinkan pencarian ChatGPT (agar website bisa muncul di hasil ChatGPT)
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /api/
+Disallow: /_vercel/
+
+# Izinkan ChatGPT membuka link saat pengguna meminta
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /api/
+Disallow: /_vercel/
+
+# Blokir GPTBot (hanya untuk training model AI, tidak memengaruhi hasil pencarian)
+User-agent: GPTBot
+Disallow: /
+
+# Semua crawler lain
 User-agent: *
 Allow: /
-
 Disallow: /api/
 Disallow: /_vercel/
 
