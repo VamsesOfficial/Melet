@@ -190,7 +190,7 @@ export default function ProductGalleryPage({ dark }) {
     <>
       <SEOHead
         title={`${product.name} — Photo Gallery | PT Kawan Baik Bali`}
-        description={`Lihat semua foto ${product.name}. Hotel amenities berkualitas dari PT Kawan Baik Bali, supplier 500+ hotel di Bali & Indonesia.`}
+        description={`Lihat semua foto ${product.name}. Hotel amenities berkualitas dari PT Kawan Baik Bali untuk hotel & resort di Bali & Indonesia.`}
         canonical={`https://www.kawanbaikbali.com/products/${product.slug}/gallery`}
         ogImage={photos[0]?.src || "https://www.kawanbaikbali.com/og-image.jpeg"}
       />
